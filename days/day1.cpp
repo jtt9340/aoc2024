@@ -1,6 +1,7 @@
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
+#include <set>
 
 #include "day1.h"
 
@@ -40,6 +41,15 @@ Part1Output part1(Input &lists) {
         distance += std::abs(static_cast<long int>(*l) - static_cast<long int>(*r));
 
     return distance;
+}
+
+Part2Output part2(Input &lists) {
+    std::multiset<std::uint32_t> right{std::cbegin(lists.right), std::cend(lists.right)};
+
+    Part2Output similarity_score{0};
+    for (auto l : lists.left)
+        similarity_score += l * right.count(l);
+    return similarity_score;
 }
 
 } // namespace aoc::day1
