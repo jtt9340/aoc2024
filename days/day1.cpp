@@ -3,6 +3,10 @@
 #include <cstdlib>
 #include <set>
 
+#ifdef TESTING
+#include <catch2/catch.hpp>
+#endif
+
 #include "day1.h"
 
 namespace aoc::day1 {
@@ -51,5 +55,49 @@ Part2Output part2(Input &lists) {
         similarity_score += l * right.count(l);
     return similarity_score;
 }
+
+#ifdef TESTING
+TEST_CASE("day 1 sample", "[day1][sample]") {
+    Input input;
+    input.left = {3, 4, 2, 1, 3, 3};
+    input.right = {4, 3, 5, 3, 9, 3};
+
+    SECTION("parse_input") {
+        std::ifstream input_fixture{"fixtures/day1-sample-input.txt"};
+        REQUIRE(input_fixture);
+
+        const auto parsed_input{parse_input(input_fixture)};
+        REQUIRE(input.left == parsed_input.left);
+        REQUIRE(input.right == parsed_input.right);
+    }
+
+    SECTION("part 1") {
+        const auto expected = 11U, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 31U, actual = part2(input);
+        REQUIRE(expected == actual);
+    }
+}
+
+TEST_CASE("day 1", "[day1]") {
+    std::ifstream input_fixture{"fixtures/day1-input.txt"};
+    REQUIRE(input_fixture);
+
+    auto input = parse_input(input_fixture);
+
+    SECTION("part 1") {
+        const auto expected = 2196996U, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 23655822U, actual = part2(input);
+        REQUIRE(expected == actual);
+    }
+}
+#endif
 
 } // namespace aoc::day1

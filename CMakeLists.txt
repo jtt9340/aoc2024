@@ -11,6 +11,7 @@ set(
 )
 add_executable(aoc2024 aoc2024.cpp ${DAY_SOURCES})
 
-#find_package(Catch2 3 REQUIRED)
-
-#add_executable(aoc2024-test aoc2024_test.cpp)
+find_package(Catch2 REQUIRED)
+add_executable(aoc2024_tests aoc2024_tests.cpp ${DAY_SOURCES})
+target_link_libraries(aoc2024_tests PRIVATE Catch2::Catch2)
+target_compile_definitions(aoc2024_tests PRIVATE TESTING)

@@ -12,8 +12,8 @@ using Part2Output = std::uint32_t;
 
 Input parse_input(std::ifstream &input);
 
-Part1Output part1(Input &is);
+Part1Output part1(const Input &is);
 
-Part2Output part2(Input &is);
+Part2Output part2(const Input &is);
 
 } // namespace aoc::day0
