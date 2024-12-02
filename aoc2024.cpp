@@ -5,6 +5,7 @@
 #include <unistd.h>
 
 #include "days/day0.h"
+#include "days/day1.h"
 using namespace aoc;
 
 #define OPTSTRING "hd:p:"
@@ -36,6 +37,11 @@ static int run_aoc(const long day, const Part part, std::ifstream &input) {
             std::cout << day0::part1(input_parsed) << std::endl;
         if (part == Part::BothParts || part == Part::Part2)
             std::cout << day0::part2(input_parsed) << std::endl;
+    } break;
+    case 1: {
+        auto input_parsed = day1::parse_input(input);
+        if (part == Part::BothParts || part == Part::Part1)
+            std::cout << day1::part1(input_parsed) << std::endl;
     } break;
     default: std::cout << "error: day not yet implemented" << std::endl; ret = EXIT_FAILURE;
     }
