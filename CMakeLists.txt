@@ -9,6 +9,7 @@ set(
     days/day0.cpp
     days/day1.cpp
     days/day2.cpp
+    days/day3.cpp
 )
 add_executable(aoc2024 aoc2024.cpp ${DAY_SOURCES})
 
