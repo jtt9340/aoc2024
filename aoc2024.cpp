@@ -54,14 +54,19 @@ static int run_aoc(const long day, const Part part, std::ifstream &input) {
         if (part == Part::BothParts || part == Part::Part2)
             std::cout << day2::part2(input_parsed) << std::endl;
     } break;
-    case 3: {
-        if (part == Part::BothParts || part == Part::Part1)
+    case 3:
+        switch (part) {
+        case Part::BothParts:
             std::cout << day3::part1(input) << std::endl;
-        if (part == Part::BothParts || part == Part::Part2) {
-            std::cout << "error: part not yet implemented" << std::endl;
-            ret = EXIT_FAILURE;
+            // Rewind before doing part 2
+            input.clear(); // https://stackoverflow.com/a/28331018
+            input.seekg(0);
+            std::cout << day3::part2(input) << std::endl;
+            break;
+        case Part::Part1: std::cout << day3::part1(input) << std::endl; break;
+        case Part::Part2: std::cout << day3::part2(input) << std::endl;
         }
-    } break;
+        break;
     default: std::cout << "error: day not yet implemented" << std::endl; ret = EXIT_FAILURE;
     }
 
