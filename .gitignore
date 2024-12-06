@@ -1,2 +1,5 @@
 # CMake output
 /build/
+
+# Nix output
+/result

@@ -12,6 +12,10 @@ set(
     days/day3.cpp
 )
 add_executable(aoc2024 aoc2024.cpp ${DAY_SOURCES})
+install(
+    TARGETS aoc2024
+    DESTINATION bin
+)
 
 find_package(Catch2 REQUIRED)
 add_executable(aoc2024_tests aoc2024_tests.cpp ${DAY_SOURCES})
