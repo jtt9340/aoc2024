@@ -3,13 +3,14 @@ project("Advent of Code 2024" CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 
-include_directories(${PROJECT_SOURCE_DIR}/days)
+include_directories(${PROJECT_SOURCE_DIR}/days ${PROJECT_SOURCE_DIR}/util)
 set(
     DAY_SOURCES
     days/day0.cpp
     days/day1.cpp
     days/day2.cpp
     days/day3.cpp
+    days/day4.cpp
 )
 add_executable(aoc2024 aoc2024.cpp ${DAY_SOURCES})
 install(

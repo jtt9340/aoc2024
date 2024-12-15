@@ -113,7 +113,8 @@ static bool is_safe_with_problem_dampener(const Input::value_type &reports) {
     return false;
 }
 
-template <bool (*safety_func)(const Input::value_type &)> static std::uint32_t determine_safety(const Input &reports) {
+template <bool (*safety_func)(const Input::value_type &)>
+static std::uint32_t determine_safety(const Input &reports) {
     std::uint32_t safe{0};
 
     for (const auto &report : reports)
