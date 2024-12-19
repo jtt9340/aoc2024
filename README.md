@@ -13,7 +13,7 @@ If you want to compile the binaries manually with CMake (see below), you can ent
 This is currently the only way to build and run the test binary.
 
 ## Building and Running outside of Nix
-This is a [CMake][cmake] project.
+This is a [CMake][cmake] project. You will need the aforementioned Catch2 library installed.
 ```sh
 mkdir build && cd build
 cmake ..
