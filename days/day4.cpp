@@ -75,6 +75,47 @@ Part1Output part1(const Input &word_search) {
     return cnt;
 }
 
+Part2Output part2(const Input &word_search) {
+    Part2Output cnt{0};
+
+    for (auto r = 1; r < word_search.rows() - 1; r++) {
+        for (auto c = 1; c < word_search.cols() - 1; c++) {
+            if (word_search(r, c) != 'A')
+                continue;
+
+            // M.S
+            // .A.
+            // M.S
+            if (word_search(r - 1, c - 1) == 'M' && word_search(r - 1, c + 1) == 'S' &&
+                word_search(r + 1, c - 1) == 'M' && word_search(r + 1, c + 1) == 'S')
+                cnt++;
+
+            // M.M
+            // .A.
+            // S.S
+            if (word_search(r - 1, c - 1) == 'M' && word_search(r - 1, c + 1) == 'M' &&
+                word_search(r + 1, c - 1) == 'S' && word_search(r + 1, c + 1) == 'S')
+                cnt++;
+
+            // S.M
+            // .A.
+            // S.M
+            if (word_search(r - 1, c - 1) == 'S' && word_search(r - 1, c + 1) == 'M' &&
+                word_search(r + 1, c - 1) == 'S' && word_search(r + 1, c + 1) == 'M')
+                cnt++;
+
+            // S.S
+            // .A.
+            // M.M
+            if (word_search(r - 1, c - 1) == 'S' && word_search(r - 1, c + 1) == 'S' &&
+                word_search(r + 1, c - 1) == 'M' && word_search(r + 1, c + 1) == 'M')
+                cnt++;
+        }
+    }
+
+    return cnt;
+}
+
 #ifdef TESTING
 TEST_CASE("day 4 sample", "[day4][sample]") {
     // clang-format off: want to keep this matrix-style formatting
@@ -102,6 +143,28 @@ TEST_CASE("day 4 sample", "[day4][sample]") {
 
     SECTION("part 1") {
         const auto expected = 18U, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 9U, actual = part2(input);
+        REQUIRE(expected == actual);
+    }
+}
+
+TEST_CASE("day 4", "[day4]") {
+    std::ifstream input_fixture{"fixtures/day4-input.txt"};
+    REQUIRE(input_fixture);
+
+    auto input = parse_input(input_fixture);
+
+    SECTION("part 1") {
+        const auto expected = 2524U, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 1873U, actual = part2(input);
         REQUIRE(expected == actual);
     }
 }

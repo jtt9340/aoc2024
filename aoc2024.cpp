@@ -72,6 +72,8 @@ static int run_aoc(const long day, const Part part, std::ifstream &input) {
         auto input_parsed = day4::parse_input(input);
         if (part == Part::BothParts || part == Part::Part1)
             std::cout << day4::part1(input_parsed) << std::endl;
+        if (part == Part::BothParts || part == Part::Part2)
+            std::cout << day4::part2(input_parsed) << std::endl;
     } break;
     default: std::cout << "error: day not yet implemented" << std::endl; ret = EXIT_FAILURE;
     }
