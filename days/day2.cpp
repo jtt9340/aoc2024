@@ -25,7 +25,7 @@ Input parse_input(std::ifstream &input) {
         reports.emplace_back(std::move(report));
     }
 
-    return std::move(reports);
+    return reports;
 }
 
 static bool is_safe(const Input::value_type &report) {

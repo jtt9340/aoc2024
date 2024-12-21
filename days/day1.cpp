@@ -32,7 +32,7 @@ Input parse_input(std::ifstream &input) {
     }
 
     assert(lists.left.size() == lists.right.size());
-    return std::move(lists);
+    return lists;
 }
 
 Part1Output part1(Input &lists) {

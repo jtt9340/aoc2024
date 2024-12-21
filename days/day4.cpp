@@ -21,7 +21,7 @@ Input parse_input(std::ifstream &input) {
     input.seekg(0);
     Input m{r, c, '.'};
     input >> m;
-    return std::move(m);
+    return m;
 }
 
 Part1Output part1(const Input &word_search) {

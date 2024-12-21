@@ -14,7 +14,7 @@ Input parse_input(std::ifstream &input) {
     for (Input::value_type n; input >> n;)
         is.push_back(n);
 
-    return std::move(is);
+    return is;
 }
 
 Part1Output part1(const Input &is) {

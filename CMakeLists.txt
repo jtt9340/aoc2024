@@ -14,7 +14,7 @@ set(
     days/day5.cpp
 )
 add_executable(aoc2024 aoc2024.cpp ${DAY_SOURCES})
-target_compile_options(aoc2024 PRIVATE -g)
+target_compile_options(aoc2024 PRIVATE -g -Werror=pessimizing-move)
 install(
     TARGETS aoc2024
     DESTINATION bin
