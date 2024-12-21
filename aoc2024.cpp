@@ -9,6 +9,7 @@
 #include "days/day2.h"
 #include "days/day3.h"
 #include "days/day4.h"
+#include "days/day5.h"
 using namespace aoc;
 
 #define OPTSTRING "hd:p:"
@@ -74,6 +75,13 @@ static int run_aoc(const long day, const Part part, std::ifstream &input) {
             std::cout << day4::part1(input_parsed) << std::endl;
         if (part == Part::BothParts || part == Part::Part2)
             std::cout << day4::part2(input_parsed) << std::endl;
+    } break;
+    case 5: {
+        auto input_parsed = day5::parse_input(input);
+        if (part == Part::BothParts || part == Part::Part1)
+            std::cout << day5::part1(input_parsed) << std::endl;
+        if (part == Part::BothParts || part == Part::Part2)
+            std::cout << "Not yet implemented" << std::endl;
     } break;
     default: std::cout << "error: day not yet implemented" << std::endl; ret = EXIT_FAILURE;
     }
