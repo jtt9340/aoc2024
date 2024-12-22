@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cassert>
+#include <deque>
 #include <sstream>
 
 #include "day5.h"
@@ -68,7 +69,7 @@ Input parse_input(std::ifstream &input) {
         i.updates.emplace_back(std::move(update));
     }
 
-    return std::move(i);
+    return i;
 }
 
 static bool is_correct_order(const std::map<std::uint32_t, std::set<std::uint32_t>> &rules,
@@ -83,11 +84,41 @@ static bool is_correct_order(const std::map<std::uint32_t, std::set<std::uint32_
                          [neighbor](const auto kv) {
                              return neighbor == kv.first;
                          }) != std::cend(rules) &&
-            std::find(std::cbegin(rules.at(e)), std::cend(rules.at(e)), neighbor) == std::cend(rules.at(e)))
+            rules.at(e).find(neighbor) == std::cend(rules.at(e)))
             return false;
     }
 
     return true;
+}
+
+static void visit(std::set<std::uint32_t> &seen, std::vector<std::uint32_t> &reordered,
+                  const std::map<std::uint32_t, std::set<std::uint32_t>> &rules, std::uint32_t v) {
+    seen.insert(v);
+    for (const auto u : rules.at(v))
+        if (seen.find(u) == std::end(seen))
+            visit(seen, reordered, rules, u);
+    reordered.push_back(v);
+}
+
+static std::vector<std::uint32_t> reorder(const std::map<std::uint32_t, std::set<std::uint32_t>> &rules,
+                                          const std::vector<std::uint32_t> &update) {
+    std::vector<std::uint32_t> reordered;
+    reordered.reserve(update.size());
+    std::set<std::uint32_t> seen;
+
+    // We DON'T want to visit any rules mentioning any numbers NOT in update.
+    for (const auto &kv : rules)
+        seen.insert(kv.first);
+
+    for (const auto v : update)
+        seen.erase(v);
+
+    for (const auto v : update)
+        if (seen.find(v) == std::end(seen))
+            visit(seen, reordered, rules, v);
+
+    std::reverse(std::begin(reordered), std::end(reordered));
+    return reordered;
 }
 
 Part1Output part1(const Input &input) {
@@ -98,6 +129,20 @@ Part1Output part1(const Input &input) {
             continue;
 
         sum += update[update.size() / 2];
+    }
+
+    return sum;
+}
+
+Part2Output part2(const Input &input) {
+    Part2Output sum{0};
+
+    for (const auto &update : input.updates) {
+        if (is_correct_order(input.rules, update))
+            continue;
+
+        const auto reordered = reorder(input.rules, update);
+        sum += reordered[reordered.size() / 2];
     }
 
     return sum;
@@ -115,6 +160,7 @@ TEST_CASE("day 5 sample", "[day5][sample]") {
                    {13, {}}};
     input.updates = {{75, 47, 61, 53, 29}, {97, 61, 53, 29, 13}, {75, 29, 13},
                      {75, 97, 47, 61, 53}, {61, 13, 29},         {97, 13, 75, 29, 47}};
+    const std::vector<std::uint32_t> correct_order{97, 75, 47, 61, 53, 29, 13};
 
     SECTION("parse_input") {
         std::ifstream input_fixture{"fixtures/day5-sample-input.txt"};
@@ -134,8 +180,19 @@ TEST_CASE("day 5 sample", "[day5][sample]") {
         CHECK(is_correct_order(input.rules, {75, 100, 29, 13}));
     }
 
+    SECTION("reorder") {
+        CHECK(reorder(input.rules, input.updates[3]) == std::vector<std::uint32_t>{97, 75, 47, 61, 53});
+        CHECK(reorder(input.rules, input.updates[4]) == std::vector<std::uint32_t>{61, 29, 13});
+        CHECK(reorder(input.rules, input.updates[5]) == std::vector<std::uint32_t>{97, 75, 47, 29, 13});
+    }
+
     SECTION("part 1") {
         const auto expected = 143U, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 123U, actual = part2(input);
         REQUIRE(expected == actual);
     }
 }
@@ -148,6 +205,11 @@ TEST_CASE("day 5", "[day5]") {
 
     SECTION("part 1") {
         const auto expected = 6612U, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 4944U, actual = part2(input);
         REQUIRE(expected == actual);
     }
 }
