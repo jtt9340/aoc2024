@@ -1,3 +1,4 @@
+#include <cstdint>
 #include <fstream>
 #include <utility>
 
@@ -14,9 +15,11 @@ struct Input {
 };
 
 using Part1Output = std::size_t;
+using Part2Output = std::uint32_t;
 
 Input parse_input(std::ifstream &input);
 
 Part1Output part1(const Input &input);
+Part2Output part2(const Input &input);
 
 } // namespace aoc::day6
