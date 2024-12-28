@@ -97,7 +97,7 @@ static int run_aoc(const long day, const Part part, std::ifstream &input) {
         if (part == Part::BothParts || part == Part::Part1)
             std::cout << day7::part1(input_parsed) << std::endl;
         if (part == Part::BothParts || part == Part::Part2)
-            std::cout << "error: part not yet implemented" << std::endl;
+            std::cout << day7::part2(input_parsed) << std::endl;
     } break;
     default: std::cout << "error: day not yet implemented" << std::endl; ret = EXIT_FAILURE;
     }

@@ -13,14 +13,16 @@ struct Equation {
     bool operator==(const Equation &eqn) const;
     bool operator!=(const Equation &eqn) const;
 
-    bool can_be_true() const;
+    bool can_be_true(bool use_concatenation = false) const;
 };
 
 using Input = std::vector<Equation>;
 using Part1Output = std::uint64_t;
+using Part2Output = std::uint64_t;
 
 Input parse_input(std::ifstream &input);
 
 Part1Output part1(const Input &input);
+Part2Output part2(const Input &input);
 
 } // namespace aoc::day7

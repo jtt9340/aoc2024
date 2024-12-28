@@ -8,6 +8,15 @@
 
 namespace aoc::day7 {
 
+static uint64_t concat_digits(uint64_t a, uint64_t b) {
+    const auto c = b;
+    while (b) {
+        a *= 10;
+        b /= 10;
+    }
+    return a + c;
+}
+
 bool Equation::operator==(const Equation &eqn) const {
     return answer == eqn.answer && operands == eqn.operands;
 }
@@ -16,7 +25,7 @@ bool Equation::operator!=(const Equation &eqn) const {
     return !(*this == eqn);
 }
 
-bool Equation::can_be_true() const {
+bool Equation::can_be_true(bool use_concatenation) const {
     if (operands.empty())
         return false;
 
@@ -27,6 +36,8 @@ bool Equation::can_be_true() const {
         if (i < operands.size() - 1) {
             to_visit.push(std::make_pair(i + 1, e + operands[i + 1]));
             to_visit.push(std::make_pair(i + 1, e * operands[i + 1]));
+            if (use_concatenation)
+                to_visit.push(std::make_pair(i + 1, concat_digits(e, operands[i + 1])));
         }
         if (e == answer && i == operands.size() - 1)
             return true;
@@ -71,6 +82,16 @@ Part1Output part1(const Input &input) {
     return total_calibration_result;
 }
 
+Part2Output part2(const Input &input) {
+    Part2Output total_calibration_result{0};
+
+    for (const auto &eqn : input)
+        if (eqn.can_be_true(true))
+            total_calibration_result += eqn.answer;
+
+    return total_calibration_result;
+}
+
 #ifdef TESTING
 TEST_CASE("day 7 sample", "[day7][sample]") {
     Input input{{190, {10, 19}},    {3267, {81, 40, 27}},    {83, {17, 5}},
@@ -90,9 +111,12 @@ TEST_CASE("day 7 sample", "[day7][sample]") {
         CHECK(input[1].can_be_true());
         CHECK(!input[2].can_be_true());
         CHECK(!input[3].can_be_true());
+        CHECK(input[3].can_be_true(true));
         CHECK(!input[4].can_be_true());
+        CHECK(input[4].can_be_true(true));
         CHECK(!input[5].can_be_true());
         CHECK(!input[6].can_be_true());
+        CHECK(input[6].can_be_true(true));
         CHECK(!input[7].can_be_true());
         CHECK(input[8].can_be_true());
         CHECK(!Equation{2532, {8, 7, 9, 35, 4, 3, 4}}.can_be_true());
@@ -100,8 +124,17 @@ TEST_CASE("day 7 sample", "[day7][sample]") {
         CHECK(!Equation{1568, {49, 16, 2, 64, 852}}.can_be_true());
     }
 
+    SECTION("concat_digits") {
+        CHECK(concat_digits(12LU, 34LU) == 1234LU);
+    }
+
     SECTION("part 1") {
         const auto expected = 3749LU, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 11387LU, actual = part2(input);
         REQUIRE(expected == actual);
     }
 }
@@ -114,6 +147,11 @@ TEST_CASE("day 7", "[day7]") {
 
     SECTION("part 1") {
         const auto expected = 1399219271639LU, actual = part1(input);
+        REQUIRE(expected == actual);
+    }
+
+    SECTION("part 2") {
+        const auto expected = 275791737999003LU, actual = part2(input);
         REQUIRE(expected == actual);
     }
 }
