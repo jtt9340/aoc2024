@@ -13,9 +13,12 @@ set(
     days/day4.cpp
     days/day5.cpp
     days/day6.cpp
+    days/day7.cpp
 )
 add_executable(aoc2024 aoc2024.cpp ${DAY_SOURCES})
-target_compile_options(aoc2024 PRIVATE -g -Werror=pessimizing-move)
+if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
+    target_compile_options(aoc2024 PRIVATE -g -Werror=pessimizing-move)
+endif()
 install(
     TARGETS aoc2024
     DESTINATION bin
