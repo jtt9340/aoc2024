@@ -14,6 +14,7 @@ set(
     days/day5.cpp
     days/day6.cpp
     days/day7.cpp
+    days/day8.cpp
 )
 add_executable(aoc2024 aoc2024.cpp ${DAY_SOURCES})
 if (CMAKE_CXX_COMPILER_ID MATCHES "Clang|GNU")
